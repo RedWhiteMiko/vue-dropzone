@@ -2,7 +2,13 @@ export default {
   getSignedURL(file, config) {
     let payload = {
       filePath: file.name,
-      contentType: file.type
+      contentType: file.type,
+      description: "",
+      name: file.name,
+      originalName: file.name,
+      size: file.size,
+      type: file.type,
+      version: 1
     }
 
     return new Promise((resolve, reject) => {
@@ -32,7 +38,14 @@ export default {
         fd.append(name, value);
       });
 
-      request.send(fd);
+      // TODO: FIX TO SELECT WHETHER SEND AS FORM OR JSON
+      request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      request.setRequestHeader("Accept", "application/json, text/plain, */*")
+      let o = {}
+      fd.forEach((value, key) => {o[key] = value});
+
+      request.send(JSON.stringify(o))
+      // request.send(fd);
     });
   },
   sendFile(file, config, is_sending_s3) {
