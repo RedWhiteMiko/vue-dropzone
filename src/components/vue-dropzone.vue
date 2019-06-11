@@ -140,7 +140,8 @@ export default {
         if(vm.isS3OverridesServerPropagation){
           var xmlResponse = (new window.DOMParser()).parseFromString(response, "text/xml");
           var s3ObjectLocation = xmlResponse.firstChild.children[0].innerHTML;
-          vm.$emit('vdropzone-s3-upload-success', s3ObjectLocation);
+
+          vm.$emit('vdropzone-s3-upload-success', s3ObjectLocation, file.id, file.uuid, file.s3Signature);
         }
           if (vm.wasQueueAutoProcess)
             vm.setOption('autoProcessQueue', false);
@@ -366,7 +367,7 @@ export default {
             if (response.success) {
               file.s3ObjectLocation = response.message
               setTimeout(() => this.dropzone.processFile(file))
-              this.$emit('vdropzone-s3-upload-success', response.message);
+              this.$emit('vdropzone-s3-upload-success', response.message, file.id, file.uuid, file.s3Signature);
             } else {
               if ('undefined' !== typeof response.message) {
                 this.$emit('vdropzone-s3-upload-error', response.message);

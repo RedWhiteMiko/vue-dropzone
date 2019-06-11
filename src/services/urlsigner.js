@@ -58,6 +58,8 @@ export default {
   setResponseHandler(response, file) {
     file.s3Signature = response.signature;
     file.s3Url = response.postEndpoint;
+    file.id = response.id;
+    file.uuid = response.uuid;
   },
   sendS3Handler(response, file) {
     let fd = new FormData(),
