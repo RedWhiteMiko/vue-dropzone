@@ -65,6 +65,7 @@ export default {
   },
   computed: {
     dropzoneSettings() {
+      const vm = this
       let defaultValues = {
         thumbnailWidth: 200,
         thumbnailHeight: 200
@@ -139,9 +140,10 @@ export default {
       if (vm.isS3) {
         if(vm.isS3OverridesServerPropagation){
           var xmlResponse = (new window.DOMParser()).parseFromString(response, "text/xml");
-          var s3ObjectLocation = xmlResponse.firstChild.children[0].innerHTML;
-
-          vm.$emit('vdropzone-s3-upload-success', s3ObjectLocation, file.id, file.uuid, file.s3Signature);
+          if (xmlResponse.firstChild !== null) {
+            var s3ObjectLocation = xmlResponse.firstChild.children[0].innerHTML;
+            vm.$emit('vdropzone-s3-upload-success', s3ObjectLocation, file.id, file.uuid, file.s3Signature);
+          }
         }
           if (vm.wasQueueAutoProcess)
             vm.setOption('autoProcessQueue', false);
@@ -425,6 +427,7 @@ export default {
 
   .vue-dropzone > .dz-preview .dz-image:hover img {
     transform: none;
+    filter: none;
     -webkit-filter: none;
   }
 

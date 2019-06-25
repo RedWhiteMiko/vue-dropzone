@@ -34,15 +34,16 @@ export default {
         request.setRequestHeader(name, value);
       });
       payload = Object.assign(payload, config.params || {});
+      let o = {}
       Object.entries(payload).forEach(([name, value]) => {
         fd.append(name, value);
+        o[name] = value.toString();
       });
 
       // TODO: FIX TO SELECT WHETHER SEND AS FORM OR JSON
       request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       request.setRequestHeader("Accept", "application/json, text/plain, */*")
-      let o = {}
-      fd.forEach((value, key) => {o[key] = value});
+      // fd.forEach((value, key) => {o[key] = value});
 
       request.send(JSON.stringify(o))
       // request.send(fd);
