@@ -140,7 +140,7 @@ export default {
       if (vm.isS3) {
         if(vm.isS3OverridesServerPropagation){
           var xmlResponse = (new window.DOMParser()).parseFromString(response, "text/xml");
-          if (xmlResponse.firstChild !== null && xmlResponse.firstChild.children.length > 0) {
+          if (null !== xmlResponse.firstChild && xmlResponse.firstChild.children && xmlResponse.firstChild.children.length > 0) {
             var s3ObjectLocation = xmlResponse.firstChild.children[0].innerHTML;
             vm.$emit('vdropzone-s3-upload-success', s3ObjectLocation, file.id, file.uuid, file.s3Signature);
           }
